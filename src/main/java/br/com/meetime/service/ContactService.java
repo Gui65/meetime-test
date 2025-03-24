@@ -39,4 +39,21 @@ public class ContactService {
 
         return response;
     }
+
+    public ResponseEntity<String> listContacts() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + authService.getAccessToken());
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        String url = apiUrl + "?limit=10"; // Ajuste o limite conforme necessário
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                url, HttpMethod.GET, request, String.class);
+
+        return response;
+    }
 }

@@ -12,10 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/contacts/**").permitAll()
-                        .requestMatchers("/webhook/**").permitAll()// Permite acesso sem login
-                        .anyRequest().authenticated() // Bloqueia outros endpoints
+                        .anyRequest().permitAll() // Permite acesso a todos os endpoints
                 )
                 .csrf(csrf -> csrf.disable()); // Desabilita CSRF para testes
 
