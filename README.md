@@ -41,6 +41,16 @@ Após a criação do aplicativo, copie as seguintes credenciais:
 
 Essas credenciais devem ser configuradas no arquivo `.properties` ou em variáveis de ambiente.
 
+### 4️⃣Criar conta de TESTE.
+
+Após a criação do aplicativo, é necessário criar uma conta de TESTE, para você conseguir testar a aplicação.
+
+1. No Area inicial do HubSpot, acesse **Testar Contas**;
+2. Clique em  **Criar uma conta de teste de desenvolvedor**;
+3. Clique em Criar
+![image.png](./arquivosReadme/image%202.png)
+![image.png](./arquivosReadme/image%203.png)
+
 ## 🌍 Configuração do Webhook
 
 Para receber eventos do HubSpot via webhooks, siga os passos abaixo:
@@ -63,6 +73,63 @@ Para receber eventos do HubSpot via webhooks, siga os passos abaixo:
     
 3. Selecione os eventos que deseja escutar (ex: criação e atualização de contatos);
 4. Salve as configurações e teste o webhook.
+![image.png](./arquivosReadme/image%209.png)
+
+## 🛠 Como Usar o Ngrok
+
+Caso esteja testando localmente, o HubSpot exige uma URL pública e segura para os webhooks. Para isso, utilizamos o **Ngrok**:
+
+### 1️⃣ Baixar e Instalar o Ngrok
+
+- Baixe o Ngrok [aqui](https://ngrok.com/);
+- Extraia o arquivo e mova para um local acessível no terminal;
+- No Windows, pode executar diretamente o `.exe` ou mover para `C:\ngrok`.
+
+### 2️⃣ Autenticar sua Conta
+
+Antes de usar, autentique-se com seu token do Ngrok:
+
+```sh
+ngrok config add-authtoken SEU_TOKEN_AQUI
+```
+
+Para obter o token:
+
+- Acesse: [https://dashboard.ngrok.com/get-started/your-authtoken](https://dashboard.ngrok.com/get-started/your-authtoken)
+- Copie e cole no comando acima.
+
+### 3️⃣ Expor seu Servidor Local
+
+Agora, execute o comando para expor sua API local na porta 8080:
+
+```sh
+ngrok http 8080
+```
+
+Se sua aplicação rodar em outra porta (ex: 8081), substitua `8080` pelo número correto.
+
+### 4️⃣ Copiar a URL Pública
+
+Após rodar o comando, o terminal mostrará algo assim:
+
+```
+Session Status                online
+Forwarding                    https://random-ngrok-url.ngrok.io -> http://localhost:8080
+```
+
+Copie a URL que começa com `https://` e configure no HubSpot como a URL do webhook.
+
+### 5️⃣ Testar se Está Funcionando
+
+Agora, tente acessar no navegador ou no Postman:
+
+```
+https://random-ngrok-url.ngrok.io/webhook/hubspot
+```
+
+Se aparecer uma resposta da sua API, está funcionando! 🚀
+
+---   
 
 ## ⚙️ Configuração do Projeto
 
@@ -118,11 +185,7 @@ hubspot.api-url=https://api.hubapi.com/crm/v3/objects/contact
 ### 🔔 Webhooks
 
 - **Receber eventos do HubSpot:** `POST /webhook/hubspot`
-
-## ⚠️ No final vou deixar um passo a passo para rodar a aplicação
-
 ---
-
 ## 📖 Documentação da API
 
 Após iniciar o serviço, acesse a documentação no Swagger UI:
@@ -131,41 +194,9 @@ Após iniciar o serviço, acesse a documentação no Swagger UI:
 http://localhost:8080/swagger-ui/index.html
 ```
 
-## 📚 Documentação Técnica
-
-### 📌 Decisões Técnicas e Motivação para o Uso de Bibliotecas
-
-O projeto foi desenvolvido utilizando **Spring Boot 3.4.4** e **Java 21**, aproveitando a robustez do framework para a construção de aplicações seguras e escaláveis. A autenticação OAuth2 foi implementada utilizando a biblioteca `spring-security-oauth2-client`, garantindo conformidade com os padrões de segurança modernos. Para comunicação com a API do HubSpot, utilizamos o **RestTemplate**, permitindo fácil integração com os serviços externos.
-
-A escolha do **Swagger UI** para documentação da API visa facilitar o desenvolvimento e os testes, permitindo uma interface interativa para explorar os endpoints disponíveis.
-
-### 🔮 Possíveis Melhorias Futuras
-
-1. **Finalização do CRUD**: Atualmente, o projeto permite a criação e leitura de contatos, mas ainda pode ser expandido para incluir edição e remoção de registros.
-2. **Aprimoramento da Segurança**: Implementar melhores práticas de segurança, como a rotação de tokens, proteção contra CSRF e a utilização de OAuth2 PKCE para um fluxo mais seguro.
-3. **Melhoria no Gerenciamento de Erros**: Criar uma camada mais robusta de tratamento de erros para lidar melhor com falhas de requisição na API do HubSpot.
-
----
-
-## 🔥 Considerações Finais
-
-- Certifique-se de que a URL do webhook está acessível publicamente.
-- Para testes locais, utilize **ngrok** para expor a API via HTTPS.
-- O projeto utiliza **Java 21** e **Spring Boot 3.4.4**, garantindo compatibilidade com tecnologias modernas.
-
-Com essas configurações, sua integração com o HubSpot estará pronta para autenticar usuários, gerenciar contatos e receber eventos de maneira segura e eficiente! 🚀
-
 # 🚶‍♂️Passo a Passo para utilizar a aplicação
 
-### 1️⃣ Criando uma Conta de Testador
-
-1. Acesse o [HubSpot Developer](https://developers.hubspot.com/);
-
-![image.png](./arquivosReadme/image%202.png)
-
-![image.png](./arquivosReadme/image%203.png)
-
-### 2️⃣ Autenticando no HubSpot
+### 1️⃣ Autenticando no HubSpot
 
 1. Acesse o endpoint
 
@@ -195,3 +226,27 @@ http://localhost:8080/auth/url
 [Meetime-Test.postman_collection.json](./arquivosReadme/Meetime-Test.postman_collection.json)
 
 Collection do Postman!
+
+## 📚 Documentação Técnica
+
+### 📌 Decisões Técnicas e Motivação para o Uso de Bibliotecas
+
+O projeto foi desenvolvido utilizando **Spring Boot 3.4.4** e **Java 21**, aproveitando a robustez do framework para a construção de aplicações seguras e escaláveis. A autenticação OAuth2 foi implementada utilizando a biblioteca `spring-security-oauth2-client`, garantindo conformidade com os padrões de segurança modernos. Para comunicação com a API do HubSpot, utilizamos o **RestTemplate**, permitindo fácil integração com os serviços externos.
+
+A escolha do **Swagger UI** para documentação da API visa facilitar o desenvolvimento e os testes, permitindo uma interface interativa para explorar os endpoints disponíveis.
+
+### 🔮 Possíveis Melhorias Futuras
+
+1. **Finalização do CRUD**: Atualmente, o projeto permite a criação e leitura de contatos, mas ainda pode ser expandido para incluir edição e remoção de registros.
+2. **Aprimoramento da Segurança**: Implementar melhores práticas de segurança, como a rotação de tokens, proteção contra CSRF e a utilização de OAuth2 PKCE para um fluxo mais seguro.
+3. **Melhoria no Gerenciamento de Erros**: Criar uma camada mais robusta de tratamento de erros para lidar melhor com falhas de requisição na API do HubSpot.
+
+---
+
+## 🔥 Considerações Finais
+
+- Certifique-se de que a URL do webhook está acessível publicamente.
+- Para testes locais, utilize **ngrok** para expor a API via HTTPS.
+- O projeto utiliza **Java 21** e **Spring Boot 3.4.4**, garantindo compatibilidade com tecnologias modernas.
+
+Com essas configurações, sua integração com o HubSpot estará pronta para autenticar usuários, gerenciar contatos e receber eventos de maneira segura e eficiente! 🚀
