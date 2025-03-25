@@ -1,11 +1,12 @@
 package br.com.meetime.service;
 
 import br.com.meetime.controller.request.ContactRequest;
+
+import com.google.common.util.concurrent.RateLimiter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 @Service
 public class ContactService {
 
@@ -14,11 +15,19 @@ public class ContactService {
 
     private final AuthService authService;
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    // Permite até 10 chamadas por segundo (100 a cada 10s)
+    private final RateLimiter rateLimiter = RateLimiter.create(10.0);
+
+
     public ContactService(AuthService authService) {
         this.authService = authService;
     }
 
     public ResponseEntity<String> createContact(ContactRequest contact) {
+        rateLimiter.acquire();
+
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -41,6 +50,8 @@ public class ContactService {
     }
 
     public ResponseEntity<String> listContacts() {
+        rateLimiter.acquire();
+        
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
