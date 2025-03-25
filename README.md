@@ -179,7 +179,7 @@ Para receber eventos do HubSpot via webhooks, siga os passos abaixo:
 
 ### 🔔 Webhooks
 
-- **Receber eventos do HubSpot:** `POST /webhook/hubspot`
+- **Receber eventos do HubSpot:** `POST /webhook/object-creation`
 ---
 ## 📖 Documentação da API
 
