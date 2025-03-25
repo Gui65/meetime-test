@@ -51,29 +51,49 @@ Após a criação do aplicativo, é necessário criar uma conta de TESTE, para v
 ![image.png](./arquivosReadme/image%202.png)
 ![image.png](./arquivosReadme/image%203.png)
 
-## 🌍 Configuração do Webhook
+## ⚙️ Configuração do Projeto
 
-Para receber eventos do HubSpot via webhooks, siga os passos abaixo:
+Antes de iniciar o serviço, configure as seguintes variáveis:
 
-### 1️⃣ Configurando a URL do Webhook
+```xml
+spring.application.name=meetime-test
 
-1. No painel do aplicativo no HubSpot, acesse **Webhooks**;
-2. Adicione a URL do webhook na seção **URL de destino**, que será utilizada para receber eventos:
+server.port=8080
+
+hubspot.auth-uri=https://app.hubspot.com/oauth/authorize
+hubspot.token-uri=https://api.hubapi.com/oauth/v1/token
+hubspot.client-id=<SEU_CLIENT_ID>
+hubspot.client-secret=<SEU_CLIENT_SECRET>
+hubspot.redirect-uri=http://localhost:8080/auth/callback
+
+hubspot.api-url=https://api.hubapi.com/crm/v3/objects/contact
+```
+
+## 🚀 Executando o Serviço
+
+1. Clone este repositório:
     
-    ```
-    https://<SEU_DOMÍNIO>/webhook/hubspot
-    ```
-    
-    > Importante: O HubSpot exige URLs HTTPS, então, se estiver rodando localmente, utilize o ngrok para expor seu serviço:
-    > 
-    
-    ```
-    ngrok http 8080
+    ```bash
+    git clone <url_do_repositorio>
     ```
     
-3. Selecione os eventos que deseja escutar (ex: criação e atualização de contatos);
-4. Salve as configurações e teste o webhook.
-![image.png](./arquivosReadme/image%209.png)
+2. Entre na pasta onde foi clonado o reposítorio:
+    
+    ```bash
+    cd meetime-test
+    ```
+    
+3. Execute esse comando para baixar as dependências do Maven
+    
+    ```bash
+    mvn clean install
+    ```
+4. Execute esse comando para iniciar o projeto
+    
+    ```bash
+    mvn spring-boot:run
+    ```
+---
 
 ## 🛠 Como Usar o Ngrok
 
@@ -119,56 +139,31 @@ Forwarding                    https://random-ngrok-url.ngrok.io -> http://localh
 
 Copie a URL que começa com `https://` e configure no HubSpot como a URL do webhook.
 
-### 5️⃣ Testar se Está Funcionando
+## 🌍 Configuração do Webhook
 
-Agora, tente acessar no navegador ou no Postman:
+Para receber eventos do HubSpot via webhooks, siga os passos abaixo:
 
-```
-https://random-ngrok-url.ngrok.io/webhook/hubspot
-```
+### 1️⃣ Configurando a URL do Webhook
 
-Se aparecer uma resposta da sua API, está funcionando! 🚀
-
----   
-
-## ⚙️ Configuração do Projeto
-
-Antes de iniciar o serviço, configure as seguintes variáveis:
-
-```xml
-spring.application.name=meetime-test
-
-server.port=8080
-
-hubspot.auth-uri=https://app.hubspot.com/oauth/authorize
-hubspot.token-uri=https://api.hubapi.com/oauth/v1/token
-hubspot.client-id=<SEU_CLIENT_ID>
-hubspot.client-secret=<SEU_CLIENT_SECRET>
-hubspot.redirect-uri=http://localhost:8080/auth/callback
-
-hubspot.api-url=https://api.hubapi.com/crm/v3/objects/contact
-```
-
-## 🚀 Executando o Serviço
-
-1. Clone este repositório:
+1. No painel do aplicativo no HubSpot, acesse **Webhooks**;
+2. Adicione a URL do webhook na seção **URL de destino**, que será utilizada para receber eventos:
     
-    ```bash
-    git clone <url_do_repositorio>
+    ```
+    https://<SEU_DOMÍNIO>/webhook/object-creation
     ```
     
-2. Entre na pasta onde foi clonado o reposítorio:
+    > Importante: O HubSpot exige URLs HTTPS, então, se estiver rodando localmente, utilize o ngrok para expor seu serviço:
+    > 
     
-    ```bash
-    cd meetime-test
+    ```
+    ngrok http 8080
     ```
     
-3. Execute esse comando para iniciar o projeto
-    
-    ```bash
-    mvn spring-boot:run
-    ```
-    
+3. Selecione o evento de criação de contatos;
+4. Ative o evento.
+![image.png](./arquivosReadme/image%2010.png)
+5. Salve as configurações e teste o webhook.
+![image.png](./arquivosReadme/image%209.png)
 
 ## 🔗 Endpoints Disponíveis
 
@@ -227,11 +222,13 @@ http://localhost:8080/auth/url
 
 Collection do Postman!
 
+---
+
 ## 📚 Documentação Técnica
 
 ### 📌 Decisões Técnicas e Motivação para o Uso de Bibliotecas
 
-O projeto foi desenvolvido utilizando **Spring Boot 3.4.4** e **Java 21**, aproveitando a robustez do framework para a construção de aplicações seguras e escaláveis. A autenticação OAuth2 foi implementada utilizando a biblioteca `spring-security-oauth2-client`, garantindo conformidade com os padrões de segurança modernos. Para comunicação com a API do HubSpot, utilizamos o **RestTemplate**, permitindo fácil integração com os serviços externos.
+O projeto foi desenvolvido utilizando **Spring Boot 3.4.4** e **Java 21**, aproveitando a robustez do framework para a construção de aplicações seguras e escaláveis. A autenticação OAuth2 foi implementada utilizando a biblioteca `spring-security-oauth2-client`, garantindo conformidade com os padrões de segurança modernos. Para comunicação com a API do HubSpot, utilizamos o **RestTemplate**, permitindo fácil integração com os serviços externos. E Utilizei o "Guava" para implementar funcionalidades de rate limiting de maneira simples.
 
 A escolha do **Swagger UI** para documentação da API visa facilitar o desenvolvimento e os testes, permitindo uma interface interativa para explorar os endpoints disponíveis.
 
