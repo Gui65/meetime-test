@@ -1,4 +1,4 @@
-# HubSpot Integration - Meetime Test
+# Meetime Test
 
 Este projeto permite a integração com o HubSpot, oferecendo autenticação via OAuth2 e operações de criação de contatos. Além disso, possibilita a configuração de webhooks para receber notificações de eventos.
 
@@ -94,7 +94,6 @@ hubspot.api-url=https://api.hubapi.com/crm/v3/objects/contact
     mvn spring-boot:run
     ```
 ---
-
 ## 🛠 Como Usar o Ngrok
 
 Caso esteja testando localmente, o HubSpot exige uma URL pública e segura para os webhooks. Para isso, utilizamos o **Ngrok**:
@@ -164,23 +163,20 @@ Para receber eventos do HubSpot via webhooks, siga os passos abaixo:
 ![image.png](./arquivosReadme/image%2010.png)
 5. Salve as configurações e teste o webhook.
 ![image.png](./arquivosReadme/image%209.png)
-
-## 🔗 Endpoints Disponíveis
-
-### 🔑 Autenticação
-
-- **Iniciar Login OAuth2:** `GET /auth/url`
-- **Callback OAuth2:** `GET /auth/callback`
-
-### 👥 Contatos
-
-- **Criar contato:** `POST /contacts/create`
-- **Listar contatos:** `GET /contacts/list`
-
-### 🔔 Webhooks
-
-- **Receber eventos do HubSpot:** `POST /webhook/object-creation`
 ---
+# 🌐 API - Endpoints Disponíveis  
+
+## 🔐 Autenticação  
+- **Obter URL de Login OAuth2:** `GET /auth/url`  
+- **Processar Callback OAuth2:** `GET /auth/callback`  
+
+## 📇 Gerenciamento de Contatos  
+- **Adicionar um novo contato:** `POST /contacts/create`  
+- **Recuperar lista de contatos:** `GET /contacts/list`  
+
+## 📢 Integração via Webhooks  
+- **Capturar eventos do HubSpot:** `POST /webhook/object-creation`
+
 ## 📖 Documentação da API
 
 Após iniciar o serviço, acesse a documentação no Swagger UI:
@@ -188,7 +184,7 @@ Após iniciar o serviço, acesse a documentação no Swagger UI:
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
-
+---
 # 🚶‍♂️Passo a Passo para utilizar a aplicação
 
 ### 1️⃣ Autenticando no HubSpot
